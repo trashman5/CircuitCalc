@@ -11,4 +11,24 @@
         <url-pattern>/Calc</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>SaveDesignServlet</servlet-name>
+        <servlet-class>SaveDesignServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>SaveDesignServlet</servlet-name>
+        <url-pattern>/Save</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>HistoryFetcherServlet</servlet-name>
+        <servlet-class>HistoryFetcherServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>HistoryFetcherServlet</servlet-name>
+        <url-pattern>/viewHistory</url-pattern>
+    </servlet-mapping>    
+
 </web-app>
