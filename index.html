@@ -1,16 +1,76 @@
 <!DOCTYPE html>
 <html lang="en">
-
+<head>
+  <meta charset="UTF-8">
+  <title>Current Mirror Calculator</title>
+</head>
 <body>
+  <h1>Current Mirror Calculator</h1>
 
-    <form action="Calc" method="GET" name="values">
-        <pre>
-        Reference_Current (uA): <input NAME="Reference_Current" size="20"> 
-        VDD (V): <input NAME="VDD" size="20">
-        Width_Ratio: <input NAME="Width_Ratio" size="20">
-        <input TYPE="SUBMIT" VALUE="Enviar"> 
-        </pre>
-    </form>
+  <label>Reference Current (A): <input type="number" id="Reference_Current" step="any"></label><br>
+  <label>VDD (V):               <input type="number" id="VDD"         step="any"></label><br>
+  <label>Width Ratio:           <input type="number" id="Width_Ratio" step="any"></label><br><br>
+  <label>Topology:              <input type="string" id="Topology" step="any"></label><br><br>
 
+
+  <button onclick="calculate()">Calculate</button>
+  <!-- <button onclick="saveResult()">Save</button>-->
+  <button onclick="viewHistory()">View History</button>
+
+  <!-- Servlets dump their HTML output here -->
+  <div id="results"></div>
+  <div id="history"></div>
+
+  <script>
+    let lastCalcData = {}; // store extracted values globally
+
+    async function calculate() {
+    const params = new URLSearchParams({
+        Topology: document.getElementById('Topology').value,
+        Reference_Current: document.getElementById('Reference_Current').value,
+        VDD:         document.getElementById('VDD').value,
+        Width_Ratio: document.getElementById('Width_Ratio').value
+    });
+
+    const res  = await fetch('Calc?' + params);
+    const html = await res.text();
+
+    // Inject into results div (display it)
+    document.getElementById('results').innerHTML = html;
+
+    // Also parse it to extract values for Save
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(html, 'text/html');
+
+    // Extract values — adjust selectors to match your servlet's HTML structure
+    lastCalcData = {
+        Ref_Current:       document.getElementById('Ref_Current').value,
+        VDD:               document.getElementById('VDD').value,
+        Width_Ratio:       document.getElementById('Width_Ratio').value,
+        Topology:          doc.getElementById('topology').textContent,
+        Out_Current:       doc.getElementById('out-current').textContent,
+        Out_Impedance:     doc.getElementById('out-impedance').textContent,
+        Power_Consumption: doc.getElementById('power-consumption').textContent
+    };
+    }
+
+    async function saveResult() {
+    if (!lastCalcData.Topology) {
+        alert('Please calculate first!');
+        return;
+    }
+
+    const params = new URLSearchParams(lastCalcData);
+    const res  = await fetch('Save?' + params);
+    const html = await res.text();
+    document.getElementById('results').innerHTML = html;
+    }
+
+    async function viewHistory() {
+      const res  = await fetch('viewHistory');
+      const html = await res.text();
+      document.getElementById('history').innerHTML = html;
+    }
+  </script>
 </body>
 </html>

@@ -19,6 +19,7 @@ public class DesignLogicServlet extends HttpServlet {
         try {
             // 2. Extract parameters from the request
             // These names must match the 'name' attribute in your HTML or the keys in your JS fetch
+            String topology = request.getParameter("Topology");
             double iRef = Double.parseDouble(request.getParameter("Reference_Current")); // in uA
             double vdd = Double.parseDouble(request.getParameter("VDD"));                // in V
             double widthRatio = Double.parseDouble(request.getParameter("Width_Ratio"));
@@ -48,6 +49,19 @@ public class DesignLogicServlet extends HttpServlet {
             );
 
     out.print(htmlResponse);
+    out.println("<form action='Save' method='GET' style='margin-top:15px;'>");
+    // Hidden fields to pass data to the next Servlet
+    out.println("<input type='hidden' name='Topology' value='" + topology + "'>");
+    out.println("<input type='hidden' name='Reference_Current' value='" + iRef + "'>");
+    out.println("<input type='hidden' name='VDD' value='" + vdd + "'>");
+    out.println("<input type='hidden' name='Width_Ratio' value='" + widthRatio + "'>");
+    out.println("<input type='hidden' name='Output_Current' value='" + iOut + "'>");
+    out.println("<input type='hidden' name='Output_Impedance' value='" + rOut + "'>");
+    out.println("<input type='hidden' name='Power_Consumption' value='" + pConsum + "'>");
+    
+    out.println("<button type='submit' class='btn-save'>Confirm & Save to Database</button>");
+    out.println("</form>");
+    out.println("</div>");
 
         } catch (NumberFormatException | NullPointerException e) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
