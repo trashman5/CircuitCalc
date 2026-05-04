@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<web-app>
+
+     <servlet>
+        <servlet-name>DesignLogicServlet</servlet-name>
+        <servlet-class>DesignLogicServlet</servlet-class>
+    </servlet>
+
+     <servlet-mapping>
+        <servlet-name>DesignLogicServlet</servlet-name>
+        <url-pattern>/Calc</url-pattern>
+    </servlet-mapping>
+
+</web-app>
