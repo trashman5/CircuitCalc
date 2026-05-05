@@ -23,6 +23,7 @@ public class SaveDesignServlet extends HttpServlet {
         
         response.setContentType("text/html");
         PrintWriter out = response.getWriter();
+        out.println("<br><a href='index.html'>Back to Designer</a>");
 
         // 1. Retrieve parameters from the request
         String topology = request.getParameter("Topology");

@@ -46,6 +46,8 @@ public class HistoryFetcherServlet extends HttpServlet {
         out.println("<th><a href='viewHistory?sortBy=Topology'>Topology</a></th>");
         out.println("<th><a href='viewHistory?sortBy=Out_Current'>Output Current (uA)</a></th>");
         out.println("<th><a href='viewHistory?sortBy=Power'>Power (uW)</a></th>");
+        out.println("<th><a href='viewHistory?sortBy=Width_Radio'>Width Ratio</a></th>");
+        out.println("<th><a href='viewHistory?sortBy=Out_Impedance'>Out Impedance</a></th>");
         out.println("</tr>");
 
         Connection conn = null;
@@ -57,17 +59,22 @@ public class HistoryFetcherServlet extends HttpServlet {
             conn = DriverManager.getConnection(DB_URL);
             
             // 2. Build the dynamic SQL query
-            String sql = "SELECT ID, Topology, Out_Current, Power FROM designs ORDER BY " + sortColumn + " ASC";
+            String sql = "SELECT ID, Topology, Out_Current, Power, Width_Ratio, Out_Impedance FROM designs ORDER BY " + sortColumn + " ASC";
             stmt = conn.createStatement();
             rs = stmt.executeQuery(sql);
 
             // 3. Iterate through results and build table rows
             while (rs.next()) {
+                int id = rs.getInt("ID"); // Get the ID for this specific entry
                 out.println("<tr>");
                 out.println("<td>" + rs.getInt("ID") + "</td>");
                 out.println("<td>" + rs.getString("Topology") + "</td>");
                 out.println("<td>" + rs.getDouble("Out_Current") + "</td>");
                 out.println("<td>" + rs.getDouble("Power") + "</td>");
+                out.println("<td>" + rs.getDouble("Width_Ratio") + "</td>");
+                out.println("<td>" + rs.getDouble("Out_Impedance") + "</td>");
+
+                out.println("<td><button class='btn-delete' onclick='deleteEntry(" + id + ")'>Delete</button></td>");
                 out.println("</tr>");
             }
 

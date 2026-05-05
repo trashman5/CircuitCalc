@@ -31,4 +31,15 @@
         <url-pattern>/viewHistory</url-pattern>
     </servlet-mapping>    
 
+    <servlet>
+        <servlet-name>DeleteDesignServlet</servlet-name>
+        <servlet-class>DeleteDesignServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>DeleteDesignServlet</servlet-name>
+        <url-pattern>/delete</url-pattern>
+    </servlet-mapping>    
+
+
 </web-app>
