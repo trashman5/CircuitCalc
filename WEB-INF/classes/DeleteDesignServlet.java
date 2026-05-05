@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 @WebServlet("/deleteDesign")
 public class DeleteDesignServlet extends HttpServlet {
-    private static final String DB_URL = "jdbc:odbc:CurrentMirrorDSN";
+    private static final String DB_URL = "jdbc:odbc:CurrMirr";
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
@@ -35,6 +35,7 @@ public class DeleteDesignServlet extends HttpServlet {
             
             pstmt.close();
             conn.close();
+            response.sendRedirect("viewHistory");
         } catch (Exception e) {
             out.print("<span style='color:red;'>Error: " + e.getMessage() + "</span>");
         }
