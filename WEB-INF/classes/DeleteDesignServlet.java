@@ -7,7 +7,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/deleteDesign")
 public class DeleteDesignServlet extends HttpServlet {
     private static final String DB_URL = "jdbc:odbc:CurrMirr";
 
@@ -22,7 +21,7 @@ public class DeleteDesignServlet extends HttpServlet {
             Class.forName("sun.jdbc.odbc.JdbcOdbcDriver");
             Connection conn = DriverManager.getConnection(DB_URL);
             
-            // SQL Delete Query
+            //SQL Delete Query
             String sql = "DELETE FROM designs WHERE ID = ?";
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1, Integer.parseInt(id));
